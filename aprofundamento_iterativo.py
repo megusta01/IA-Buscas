@@ -1,9 +1,7 @@
 import networkx as nx
 
-# Criação do grafo
 grafo = nx.Graph()
 
-# Adicionando cidades ao grafo
 grafo.add_node("Arad")
 grafo.add_node("Zerind")
 grafo.add_node("Oradea")
@@ -25,7 +23,6 @@ grafo.add_node("Vaslui")
 grafo.add_node("Iasi")
 grafo.add_node("Neamt")
 
-# Adicionando arestas ao grafo (cidades vizinhas)
 arestas = [
     ("Arad", "Sibiu"),
     ("Arad", "Timisoara"),
@@ -52,30 +49,20 @@ arestas = [
     ("Iasi", "Neamt")
 ]
 
-# Adicionando as arestas ao grafo
 grafo.add_edges_from(arestas)
 
-# Função de busca em profundidade limitada
 def busca_em_profundidade_limitada(inicio, objetivo, limite_profundidade):
     try:
-        # Busca utilizando NetworkX com limite de profundidade
         caminho = nx.bfs_edges(grafo, source=inicio, depth_limit=limite_profundidade)
-        # Verifica se o objetivo está no caminho encontrado
         return objetivo in [v for u, v in caminho]
     except nx.NetworkXNoPath:
         return False
 
-# Função de busca em profundidade iterativa
 def busca_profundidade_iterativa(inicio, objetivo):
-    limite_profundidade = 0  # Inicializa o limite de profundidade
-
+    limite_profundidade = 0 
     while True:
         print(f"Tentando com limite de profundidade: {limite_profundidade}")
-
-        # Chama a função de busca em profundidade limitada
         encontrado = busca_em_profundidade_limitada(inicio, objetivo, limite_profundidade)
-
-        # Verifica se o objetivo foi encontrado
         if encontrado:
             print(f"Objetivo encontrado com limite de profundidade {limite_profundidade}")
             return True
@@ -83,10 +70,9 @@ def busca_profundidade_iterativa(inicio, objetivo):
             print(f"Objetivo nao encontrado com limite de profundidade {limite_profundidade}")
             limite_profundidade += 1  # Aumenta o limite de profundidade
 
-# Execução da busca em profundidade iterativa
-resultado = busca_profundidade_iterativa("Arad", "Bucharest")
+path = busca_profundidade_iterativa("Arad", "Bucharest")
 
-if resultado:
+if path:
     print("Caminho encontrado!")
 else:
     print("Caminho não encontrado!")

@@ -1,6 +1,5 @@
 import networkx as nx
 
-# Cria um grafo não dirigido a partir do dicionário fornecido
 graph_dict = {
     'Arad': ['Zerind', 'Sibiu', 'Timisoara'],
     'Zerind': ['Arad', 'Oradea'],
@@ -25,17 +24,12 @@ graph_dict = {
     'Fetesti': ['Giurgiu', 'Hirsova'],
 }
 
-# Cria um grafo não dirigido
 graph = nx.Graph()
-
-# Adiciona as arestas ao grafo a partir do dicionário fornecido
 for node, neighbors in graph_dict.items():
     for neighbor in neighbors:
         graph.add_edge(node, neighbor)
 
-# Função para realizar a busca limitada em profundidade usando networkx
 def dls(graph, start, goal, limit=3):
-    # Utiliza a função `nx.dfs_edges` para realizar a busca limitada em profundidade
     def dfs_limited(current, goal, depth):
         if depth > limit:
             return None
@@ -46,10 +40,11 @@ def dls(graph, start, goal, limit=3):
             if path:
                 return [current] + path
         return None
-    
-    # Chama a função auxiliar para iniciar a busca
     return dfs_limited(start, goal, 0)
 
-# Testa a função de busca limitada em profundidade
 path = dls(graph, 'Arad', 'Bucharest')
-print(path)
+
+if path:
+    print(path)
+else:
+    print('Caminho não encontrado.')

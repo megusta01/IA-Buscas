@@ -1,10 +1,8 @@
 import networkx as nx
 
-# Cria um grafo dirigido ponderado
 graph = nx.DiGraph()
 
-# Adiciona as arestas e pesos ao grafo a partir do dicionário fornecido
-mapa_romenia = {
+mapa = {
     'Arad': [('Zerind', 75), ('Sibiu', 140), ('Timisoara', 118)],
     'Zerind': [('Oradea', 71), ('Arad', 75)],
     'Oradea': [('Sibiu', 151), ('Zerind', 71)],
@@ -17,19 +15,27 @@ mapa_romenia = {
     'Rimnicu Vilcea': [('Sibiu', 80), ('Craiova', 146), ('Pitesti', 97)],
     'Fagaras': [('Sibiu', 99), ('Bucharest', 211)],
     'Pitesti': [('Rimnicu Vilcea', 97), ('Craiova', 138), ('Bucharest', 101)],
-    'Bucharest': [('Fagaras', 211), ('Pitesti', 101)]
+    'Bucharest': [('Fagaras', 211), ('Pitesti', 101), ('Giurgiu', 90), ('Urziceni', 85)],
+    'Giurgiu': [('Bucharest', 90)],
+    'Urziceni': [('Bucharest', 85), ('Hirsova', 98), ('Vaslui', 142)],
+    'Hirsova': [('Urziceni', 98), ('Eforie', 86)],
+    'Eforie': [('Hirsova', 86)],
+    'Vaslui': [('Urziceni', 142), ('Iasi', 92)],
+    'Iasi': [('Vaslui', 92), ('Neamt', 87)],
+    'Neamt': [('Iasi', 87)]
 }
 
-for city, neighbors in mapa_romenia.items():
+for city, neighbors in mapa.items():
     for neighbor, distance in neighbors:
         graph.add_edge(city, neighbor, weight=distance)
 
-# Função para encontrar o caminho mais curto de menor custo usando o algoritmo Dijkstra
 def find_shortest_path(graph, start, end):
-    # Usa a função nx.shortest_path para encontrar o caminho mais curto com base no peso
     path = nx.shortest_path(graph, source=start, target=end, weight='weight')
     return path
 
-# Testa a função para encontrar o caminho mais curto de Arad para Bucharest
 shortest_path = find_shortest_path(graph, 'Arad', 'Bucharest')
-print(shortest_path)
+
+if shortest_path:
+    print(shortest_path)
+else:
+    print('Caminho não encontrado.')

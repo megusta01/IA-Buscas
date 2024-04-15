@@ -1,6 +1,5 @@
 import networkx as nx
 
-# Definindo o mapa da Romênia com base nas cidades e distâncias
 mapa_romenia = {
     'Arad': [('Zerind', 75), ('Sibiu', 140), ('Timisoara', 118)],
     'Zerind': [('Oradea', 71), ('Arad', 75)],
@@ -24,8 +23,6 @@ mapa_romenia = {
     'Neamt': [('Iasi', 87)]
 }
 
-
-# Definindo a função de heurística que retorna a estimativa de custo de uma cidade para Bucharest
 heuristica = {
     'Arad': 366,
     'Zerind': 374,
@@ -49,16 +46,15 @@ heuristica = {
     'Neamt': 234
 }
 
-# Criando o grafo com NetworkX
 grafo = nx.Graph()
 
-# Adicionando as cidades e distâncias ao grafo
 for cidade, vizinhos in mapa_romenia.items():
     for vizinho, distancia in vizinhos:
         grafo.add_edge(cidade, vizinho, weight=distancia)
 
-# Usando a função de busca A* de NetworkX para encontrar o caminho mais curto de Arad para Bucharest
-caminho = nx.astar_path(grafo, 'Arad', 'Bucharest', heuristic=lambda u, v: heuristica[u])
+path = nx.astar_path(grafo, 'Arad', 'Bucharest', heuristic=lambda u, v: heuristica[u])
 
-# Exibindo o caminho encontrado
-print(caminho)
+if path:
+    print(path)
+else:
+    print('Caminho não encontrado.')

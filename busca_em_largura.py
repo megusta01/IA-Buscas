@@ -1,10 +1,8 @@
 import networkx as nx
 
-# Define the graph using NetworkX
 grafo = nx.Graph()
 
-# Add edges representing the Romania map
-edges = [
+neighbors = [
     ('Arad', 'Zerind'),
     ('Arad', 'Sibiu'),
     ('Arad', 'Timisoara'),
@@ -31,15 +29,14 @@ edges = [
     ('Iasi', 'Neamt')
 ]
 
-# Add edges to the graph
-grafo.add_edges_from(edges)
+grafo.add_edges_from(neighbors)
 
-# Define the BFS function using NetworkX
 def bfs(graph, start, end):
-    # Use NetworkX's shortest_path function to perform BFS
     path = nx.shortest_path(graph, source=start, target=end)
     return path
 
-# Find the shortest path from Arad to Bucharest using BFS
-caminho = bfs(grafo, 'Arad', 'Bucharest')
-print(caminho)
+path = bfs(grafo, 'Arad', 'Bucharest')
+if path:
+    print(path)
+else:
+    print('Caminho não encontrado.')

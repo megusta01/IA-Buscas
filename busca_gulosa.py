@@ -1,19 +1,15 @@
 import networkx as nx
 
-# Classe Cidade que representa um nó com as propriedades nome e distância
 class Cidade:
     def __init__(self, nome, distancia_objetivo):
         self.nome = nome
         self.distancia_objetivo = distancia_objetivo
 
-# Função para adicionar arestas entre as cidades
 def adicionar_arestas(G, cidade1, cidade2):
     G.add_edge(cidade1.nome, cidade2.nome, distancia_objetivo=cidade2.distancia_objetivo)
 
-# Criação do grafo
 G = nx.Graph()
 
-# Criação das cidades
 arad = Cidade("Arad", 366)
 zerind = Cidade("Zerind", 374)
 oradea = Cidade("Oradea", 380)
@@ -35,7 +31,6 @@ vaslui = Cidade("Vaslui", 199)
 iasi = Cidade("Iasi", 226)
 neamt = Cidade("Neamt", 234)
 
-# Adicionando cidades ao grafo
 G.add_node(arad.nome, distancia_objetivo=arad.distancia_objetivo)
 G.add_node(zerind.nome, distancia_objetivo=zerind.distancia_objetivo)
 G.add_node(oradea.nome, distancia_objetivo=oradea.distancia_objetivo)
@@ -57,7 +52,6 @@ G.add_node(vaslui.nome, distancia_objetivo=vaslui.distancia_objetivo)
 G.add_node(iasi.nome, distancia_objetivo=iasi.distancia_objetivo)
 G.add_node(neamt.nome, distancia_objetivo=neamt.distancia_objetivo)
 
-# Adicionando as arestas entre as cidades
 adicionar_arestas(G, arad, sibiu)
 adicionar_arestas(G, arad, timisoara)
 adicionar_arestas(G, arad, zerind)
@@ -97,48 +91,30 @@ adicionar_arestas(G, vaslui, iasi)
 
 adicionar_arestas(G, iasi, neamt)
 
-# Função de busca gulosa
 def busca_gulosa(inicio, objetivo):
-    # Lista para manter o caminho encontrado
     caminho = [inicio.nome]
-    # Variável para acompanhar a cidade atual
     atual = inicio
-    
-    # Continue buscando enquanto a cidade atual não for a cidade objetivo
     while atual.nome != objetivo.nome:
-        # Inicializa com um valor alto para encontrar o vizinho com a menor distância ao objetivo
         menor_distancia = float('inf')
         proxima_cidade = None
-        
-        # Itera sobre os vizinhos da cidade atual
         for vizinho in G[atual.nome]:
             vizinho_cidade = Cidade(vizinho, G[atual.nome][vizinho]['distancia_objetivo'])
-            # Verifica se a cidade vizinha possui menor distância ao objetivo
             if vizinho_cidade.distancia_objetivo < menor_distancia:
                 menor_distancia = vizinho_cidade.distancia_objetivo
                 proxima_cidade = vizinho_cidade
-        
-        # Se não houver próximo vizinho, não é possível encontrar um caminho
         if proxima_cidade is None:
             return None
         
-        # Atualiza a cidade atual para a próxima cidade com a menor distância ao objetivo
         atual = proxima_cidade
-        # Adiciona a próxima cidade ao caminho
         caminho.append(atual.nome)
-    
-    # Retorna o caminho encontrado
     return caminho
 
-# Cidade de início e cidade objetivo
 inicio = arad
 objetivo = bucharest
 
-# Execução da busca gulosa
-resultado = busca_gulosa(inicio, objetivo)
+path = busca_gulosa(inicio, objetivo)
 
-# Verifica se o resultado foi encontrado e exibe o caminho
-if resultado is not None:
-    print("Caminho encontrado:", " -> ".join(resultado))
+if path is not None:
+    print(path)
 else:
     print("Caminho não encontrado!")
